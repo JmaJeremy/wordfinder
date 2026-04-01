@@ -4,7 +4,7 @@
 import os
 import sys
 
-DICT_PATH = os.path.expanduser("./NWL2023.txt")
+DICT_PATH = os.path.expanduser("../NWL2023.txt")
 OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "../public/words.txt")
 
 if not os.path.exists(DICT_PATH):
