@@ -1,0 +1,129 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f5f5f0;
+  color: #1a1a1a;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+main {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  margin-bottom: 2rem;
+}
+
+#form {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.hint {
+  font-weight: 400;
+  color: #999;
+}
+
+input {
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  padding: 0.625rem 0.75rem;
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+  text-transform: lowercase;
+}
+
+input:focus {
+  border-color: #4a6cf7;
+  box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.12);
+}
+
+button {
+  background: #4a6cf7;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-top: 0.25rem;
+}
+
+button:hover { background: #3a5ce5; }
+button:active { background: #2a4cd3; }
+button:disabled { background: #a0a0a0; cursor: default; }
+
+#status {
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: #666;
+  min-height: 1.25rem;
+}
+
+#results {
+  margin-top: 0.5rem;
+}
+
+.group {
+  margin-bottom: 1.25rem;
+}
+
+.group-header {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #888;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e8e8e8;
+  margin-bottom: 0.625rem;
+}
+
+.word-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.word {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.9375rem;
+  font-family: ui-monospace, monospace;
+}

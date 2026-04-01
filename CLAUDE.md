@@ -2,26 +2,43 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Running the tool
+## Web app (Cloudflare Pages)
+
+**One-time setup:** generate the word list from your local NWL2023.txt:
+
+```bash
+python scripts/build_wordlist.py
+```
+
+This writes `public/words.txt` (words-only, one per line). Commit this file.
+
+**Deploy:**
+
+```bash
+npx wrangler pages deploy public/
+```
+
+Or connect the repo to Cloudflare Pages dashboard (build command: none, output directory: `public`).
+
+## CLI tool
 
 ```bash
 # Interactive mode
 python word_finder.py
 
-# CLI mode
-python word_finder.py <optional_letters> [required_letters]
-# Example: find words using letters a,b,c,d,e that must contain 'b'
+# CLI mode: python word_finder.py <optional_letters> [required_letters]
 python word_finder.py abcde b
 ```
 
 ## Architecture
 
-Single-file CLI tool (`word_finder.py`) with no dependencies beyond the standard library.
+**Web app** (`public/`) — static, no build step. `app.js` fetches `words.txt` once on first search, then filters entirely client-side. `wrangler.toml` points Cloudflare Pages at the `public/` directory.
 
-**Dictionary:** Expects NWL2023 word list at `./NWL2023.txt` (hardcoded path). Format: one entry per line, `WORD definition...` — only the first token is used.
+**CLI** (`word_finder.py`) — single-file, stdlib only. Reads NWL2023.txt directly (path hardcoded to `~/NWL2023.txt`).
 
-**Core logic:**
-- `load_words` — reads dictionary, lowercases, filters non-alpha
-- `matches` — filters words ≥4 letters that use only `allowed` letters and contain at least one `required` letter
-- `allowed = optional | required` — required letters are also valid to use, not separate from the pool
-- Output is grouped by word length, sorted longest-first then alphabetically
+**Shared logic (both):**
+- `allowed = optional | required` — required letters are also part of the usable pool
+- Words must be ≥4 letters, use only `allowed` letters, and contain at least one `required` letter
+- Results grouped by length, sorted longest-first then alphabetically
+
+**Dictionary format:** `WORD definition...` per line — only the first token is used. `build_wordlist.py` strips definitions and filters to alpha words ≥4 letters.
