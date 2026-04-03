@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Extract words from NWL2023.txt into public/words.txt for the web app."""
+"""Extract words from sowpods.txt into public/words.txt for the web app."""
 
 import os
 import sys
 
-DICT_PATH = os.path.expanduser("../NWL2023.txt")
+DICT_PATH = os.path.join(os.path.dirname(__file__), "../sowpods.txt")
 OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "../public/words.txt")
 
 if not os.path.exists(DICT_PATH):
@@ -14,10 +14,7 @@ if not os.path.exists(DICT_PATH):
 words = set()
 with open(DICT_PATH) as f:
     for line in f:
-        parts = line.split()
-        if not parts:
-            continue
-        word = parts[0].lower()
+        word = line.strip().lower()
         if word.isalpha() and len(word) >= 4:
             words.add(word)
 
