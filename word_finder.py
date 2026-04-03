@@ -4,15 +4,14 @@
 import argparse
 from itertools import groupby
 
-DICT_PATH = "./NWL2023.txt"
+DICT_PATH = "./sowpods.txt"
 
 
 def load_words(path):
-    """Load words from NWL2023 word list (format: 'WORD definition...')."""
     words = []
     with open(path) as f:
         for line in f:
-            word = line.split()[0].lower() if line.strip() else ""
+            word = line.strip().lower()
             if word.isalpha():
                 words.append(word)
     return words
