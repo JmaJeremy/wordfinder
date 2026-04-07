@@ -4,13 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Web app (Cloudflare Pages)
 
-**One-time setup:** generate the word list from your local NWL2023.txt:
+**One-time setup:** generate the combined word list from NWL2023.txt and sowpods.txt:
 
 ```bash
 python scripts/build_wordlist.py
 ```
 
-This writes `public/words.txt` (words-only, one per line). Commit this file.
+This writes `public/words.txt` (tab-separated `word<TAB>tag` format, one per line). Commit this file.
+Tags: `n` = NWL2023 exclusive, `s` = SOWPODS exclusive, `b` = both.
 
 **Deploy:**
 
@@ -28,13 +29,16 @@ python word_finder.py
 
 # CLI mode: python word_finder.py <optional_letters> [required_letters]
 python word_finder.py abcde b
+
+# Filter by dictionary: all (default), nwl, sowpods, common, nwl-only, sowpods-only
+python word_finder.py abcde b --wordlist nwl-only
 ```
 
 ## Architecture
 
 **Web app** (`public/`) — static, no build step. `app.js` fetches `words.txt` once on first search, then filters entirely client-side. `wrangler.toml` points Cloudflare Pages at the `public/` directory.
 
-**CLI** (`word_finder.py`) — single-file, stdlib only. Reads NWL2023.txt directly (path hardcoded to `~/NWL2023.txt`).
+**CLI** (`word_finder.py`) — single-file, stdlib only. Reads NWL2023.txt (`~/NWL2023.txt`) and sowpods.txt (repo root) and computes set operations based on `--wordlist` flag.
 
 **Shared logic (both):**
 - `allowed = optional | required` — required letters are also part of the usable pool

@@ -53,7 +53,7 @@ label {
   color: #999;
 }
 
-input {
+input, select {
   border: 1px solid #d0d0d0;
   border-radius: 8px;
   padding: 0.625rem 0.75rem;
@@ -61,10 +61,14 @@ input {
   font-family: inherit;
   outline: none;
   transition: border-color 0.15s;
+  background: #fff;
+}
+
+input {
   text-transform: lowercase;
 }
 
-input:focus {
+input:focus, select:focus {
   border-color: #4a6cf7;
   box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.12);
 }

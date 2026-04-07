@@ -9,7 +9,7 @@
 <body>
   <main>
     <h1>Word Finder</h1>
-    <p class="subtitle">NWL2023 &mdash; words of 4+ letters</p>
+    <p class="subtitle">NWL2023 &amp; SOWPODS &mdash; words of 4+ letters</p>
 
     <form id="form">
       <div class="field">
@@ -19,6 +19,17 @@
       <div class="field">
         <label for="required">Must include <span class="hint">(optional)</span></label>
         <input id="required" type="text" placeholder="e.g. b" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="field">
+        <label for="dict">Dictionary</label>
+        <select id="dict">
+          <option value="all">All words (NWL + SOWPODS)</option>
+          <option value="nwl">NWL2023</option>
+          <option value="sowpods">SOWPODS</option>
+          <option value="common">Common to both</option>
+          <option value="nwl-only">NWL exclusive</option>
+          <option value="sowpods-only">SOWPODS exclusive</option>
+        </select>
       </div>
       <button type="submit" id="btn">Find Words</button>
     </form>

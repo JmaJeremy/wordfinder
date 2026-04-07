@@ -1,10 +1,25 @@
-let words = null;
+// allWords: array of {word, tag} where tag is "n" (NWL only), "s" (SOWPODS only), "b" (both)
+let allWords = null;
+
+const DICT_TAGS = {
+  all:          null,              // no tag filter
+  nwl:          new Set(["n", "b"]),
+  sowpods:      new Set(["s", "b"]),
+  common:       new Set(["b"]),
+  "nwl-only":   new Set(["n"]),
+  "sowpods-only": new Set(["s"]),
+};
 
 async function loadWords() {
   const res = await fetch("words.txt");
   if (!res.ok) throw new Error("Failed to load word list");
   const text = await res.text();
-  words = text.split("\n").filter(Boolean);
+  allWords = text.split("\n").filter(Boolean).map(line => {
+    const tab = line.indexOf("\t");
+    return tab === -1
+      ? { word: line, tag: "b" }
+      : { word: line.slice(0, tab), tag: line.slice(tab + 1) };
+  });
 }
 
 function parseLetters(s) {
@@ -70,7 +85,7 @@ document.getElementById("form").addEventListener("submit", async (e) => {
     return;
   }
 
-  if (!words) {
+  if (!allWords) {
     btn.disabled = true;
     status.textContent = "Loading word list\u2026";
     try {
@@ -87,7 +102,14 @@ document.getElementById("form").addEventListener("submit", async (e) => {
   const required = parseLetters(document.getElementById("required").value);
   const allowed = new Set([...optional, ...required]);
 
-  const found = words.filter(w => matches(w, allowed, required));
+  const dictVal = document.getElementById("dict").value;
+  const tagFilter = DICT_TAGS[dictVal];
+
+  const found = allWords
+    .filter(({ tag }) => !tagFilter || tagFilter.has(tag))
+    .map(({ word }) => word)
+    .filter(w => matches(w, allowed, required));
+
   // Sort: longest first, then alphabetical
   found.sort((a, b) => b.length - a.length || a.localeCompare(b));
 
